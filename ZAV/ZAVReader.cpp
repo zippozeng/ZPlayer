@@ -3,41 +3,48 @@
 //
 
 #include "ZAV.h"
+#include "ZAVReaderPrivate.h"
+#include "ZAVPacketPrivate.h"
 
 ZAVReader::ZAVReader() {
-    formatCtx = avformat_alloc_context();
+    imp = new ZAVReaderPrivate();
+    imp->formatCtx = avformat_alloc_context();
 }
 
 ZAVReader::~ZAVReader() {
-    if (formatCtx != nullptr) {
-        avformat_free_context(formatCtx);
-        formatCtx = nullptr;
+    if (imp != nullptr && imp->formatCtx != nullptr) {
+        avformat_free_context(imp->formatCtx);
+        imp->formatCtx = nullptr;
+    }
+    if (imp != nullptr) {
+        delete imp;
+        imp = nullptr;
     }
 }
 
 int ZAVReader::open(const char *path) {
-    if (formatCtx == nullptr) {
+    if (imp == nullptr || imp->formatCtx == nullptr) {
         return -1;
     }
-    int ret = avformat_open_input(&formatCtx, path, nullptr, nullptr);
+    int ret = avformat_open_input(&imp->formatCtx, path, nullptr, nullptr);
     if (!ret) {
-        avformat_find_stream_info(formatCtx, nullptr);
+        avformat_find_stream_info(imp->formatCtx, nullptr);
     }
     return ret;
 }
 
 int ZAVReader::close() {
-    if (formatCtx == nullptr) {
+    if (imp == nullptr || imp->formatCtx == nullptr) {
         return -1;
     }
-    avformat_close_input(&formatCtx);
+    avformat_close_input(&imp->formatCtx);
     return 0;
 }
 
 int ZAVReader::read(ZAVPacket *packet) {
-    if (formatCtx == nullptr) {
+    if (imp == nullptr || imp->formatCtx == nullptr) {
         return -1;
     }
-    int ret = av_read_frame(formatCtx, packet->pkt);
+    int ret = av_read_frame(imp->formatCtx, packet->imp->pkt);
     return ret;
 }

@@ -7,7 +7,7 @@
 
 int main() {
     ZAVReader reader;
-    int ret = reader.open("../assets/demo.mp4");
+    int ret = reader.open("/Users/zippo/Code/CLionProjects/ZPlayer/assets/demo.mp4");
     if (ret) {
         std::cout << "open file failure!" << std::endl;
         return -1;

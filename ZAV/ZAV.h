@@ -6,9 +6,8 @@
 #define ZPLAYER_ZAV_H
 
 #endif //ZPLAYER_ZAV_H
-extern "C" {
-#include <libavformat/avformat.h>
-}
+
+class ZAVPacketPrivate;
 
 class ZAVPacket {
 public:
@@ -16,8 +15,10 @@ public:
 
     ~ZAVPacket();
 
-    AVPacket *pkt = nullptr;
+    ZAVPacketPrivate *imp = nullptr;
 };
+
+class ZAVReaderPrivate;
 
 class ZAVReader {
 public:
@@ -32,5 +33,5 @@ public:
     int read(ZAVPacket *packet);
 
 private:
-    AVFormatContext *formatCtx = nullptr;
+    ZAVReaderPrivate *imp = nullptr;
 };
