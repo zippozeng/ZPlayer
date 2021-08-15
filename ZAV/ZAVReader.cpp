@@ -35,5 +35,9 @@ int ZAVReader::close() {
 }
 
 int ZAVReader::read(ZAVPacket *packet) {
-    return 0;
+    if (formatCtx == nullptr) {
+        return -1;
+    }
+    int ret = av_read_frame(formatCtx, packet->pkt);
+    return ret;
 }

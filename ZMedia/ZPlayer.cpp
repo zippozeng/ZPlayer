@@ -3,30 +3,24 @@
 //
 
 #include <iostream>
-#include <thread>
-#include "ZThread/ZThread.h"
-
-class MyThread : public ZThread {
-private:
-    int a = 0;
-public:
-
-    explicit MyThread(int _a) {
-        a = _a;
-    }
-
-    void run() override {
-        printf("MyThread %d\n", a);
-    }
-
-};
+#include "ZAV/ZAV.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    MyThread t(10);
-    t.start();
-
-    std::this_thread::sleep_for(std::chrono::seconds(2));
-
+    ZAVReader reader;
+    int ret = reader.open("../assets/demo.mp4");
+    if (ret) {
+        std::cout << "open file failure!" << std::endl;
+        return -1;
+    }
+    while (true) {
+        ZAVPacket pkt;
+        ret = reader.read(&pkt);
+        if (ret) {
+            break;
+        }
+        std::cout << "read packet success!" << std::endl;
+    }
+    reader.close();
+    std::cout << "read ret:" << ret << std::endl;
     return 0;
 }

@@ -11,7 +11,12 @@ extern "C" {
 }
 
 class ZAVPacket {
+public:
+    ZAVPacket();
 
+    ~ZAVPacket();
+
+    AVPacket *pkt = nullptr;
 };
 
 class ZAVReader {
