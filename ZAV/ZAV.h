@@ -6,3 +6,26 @@
 #define ZPLAYER_ZAV_H
 
 #endif //ZPLAYER_ZAV_H
+extern "C" {
+#include <libavformat/avformat.h>
+}
+
+class ZAVPacket {
+
+};
+
+class ZAVReader {
+public:
+    ZAVReader();
+
+    ~ZAVReader();
+
+    int open(const char *path);
+
+    int close();
+
+    int read(ZAVPacket *packet);
+
+private:
+    AVFormatContext *formatCtx = nullptr;
+};
