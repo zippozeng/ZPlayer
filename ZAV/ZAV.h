@@ -18,6 +18,19 @@ public:
     ZAVPacketPrivate *imp = nullptr;
 };
 
+
+class ZAVStreamPrivate;
+
+class ZAVStream {
+public:
+    ZAVStream();
+
+    ~ZAVStream();
+
+    int index = -1;
+    ZAVStreamPrivate *imp = nullptr;
+};
+
 class ZAVReaderPrivate;
 
 class ZAVReader {
@@ -27,6 +40,10 @@ public:
     ~ZAVReader();
 
     int open(const char *path);
+
+    int getStreamCount();
+
+    int getStream(ZAVStream *steam, int streamId);
 
     int close();
 

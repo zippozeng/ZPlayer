@@ -5,6 +5,7 @@
 #include "ZAV.h"
 #include "ZAVReaderPrivate.h"
 #include "ZAVPacketPrivate.h"
+#include "ZAVStreamPrivate.h"
 
 ZAVReader::ZAVReader() {
     imp = new ZAVReaderPrivate();
@@ -47,4 +48,18 @@ int ZAVReader::read(ZAVPacket *packet) {
     }
     int ret = av_read_frame(imp->formatCtx, packet->imp->pkt);
     return ret;
+}
+
+int ZAVReader::getStreamCount() {
+    return imp->formatCtx->nb_streams;
+}
+
+int ZAVReader::getStream(ZAVStream *stream, int streamId) {
+    if (imp == nullptr) {
+        return -1;
+    }
+    AVStream *ffmpegStream = imp->formatCtx->streams[streamId];
+    stream->index = ffmpegStream->index;
+    avcodec_parameters_copy(stream->imp->codecpar, ffmpegStream->codecpar);
+    return 0;
 }
