@@ -15,6 +15,8 @@ public:
 
     ~ZAVPacket();
 
+    int getStreamIndex();
+
     ZAVPacketPrivate *imp = nullptr;
 };
 

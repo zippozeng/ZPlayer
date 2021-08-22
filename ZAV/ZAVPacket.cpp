@@ -19,3 +19,10 @@ ZAVPacket::~ZAVPacket() {
         imp = nullptr;
     }
 }
+
+int ZAVPacket::getStreamIndex() {
+    if (imp == nullptr) {
+        return -1;
+    }
+    return imp->pkt->stream_index;
+}
