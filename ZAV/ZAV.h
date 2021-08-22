@@ -31,6 +31,17 @@ public:
     ZAVStreamPrivate *imp = nullptr;
 };
 
+class ZAVFramePrivate;
+
+class ZAVFrame {
+public:
+    ZAVFrame();
+
+    ~ZAVFrame();
+
+    ZAVFramePrivate *imp = nullptr;
+};
+
 class ZAVReaderPrivate;
 
 class ZAVReader {
