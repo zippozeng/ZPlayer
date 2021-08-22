@@ -52,3 +52,19 @@ public:
 private:
     ZAVReaderPrivate *imp = nullptr;
 };
+
+class ZAVDecoderPrivate;
+
+class ZAVDecoder {
+public:
+    ZAVDecoder();
+
+    ~ZAVDecoder();
+
+    int init(ZAVStream *stream);
+
+    int close();
+
+private:
+    ZAVDecoderPrivate *imp = nullptr;
+};
