@@ -74,6 +74,10 @@ public:
 
     int init(ZAVStream *stream);
 
+    int sendPacket(ZAVPacket *pkt);
+
+    int receiveFrame(ZAVFrame *frame);
+
     int close();
 
 private:

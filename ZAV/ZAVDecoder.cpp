@@ -4,6 +4,8 @@
 
 #include "ZAV.h"
 #include "ZAVDecoderPrivate.h"
+#include "ZAVFramePrivate.h"
+#include "ZAVPacketPrivate.h"
 #include "ZAVStreamPrivate.h"
 
 ZAVDecoder::ZAVDecoder() {
@@ -34,6 +36,22 @@ int ZAVDecoder::init(ZAVStream *stream) {
         return -1;
     }
     return 0;
+}
+
+int ZAVDecoder::sendPacket(ZAVPacket *pkt) {
+    if (imp == nullptr) {
+        return -1;
+    }
+    int ret = avcodec_send_packet(imp->codecContext, pkt->imp->pkt);
+    return ret;
+}
+
+int ZAVDecoder::receiveFrame(ZAVFrame *frame) {
+    if (imp == nullptr) {
+        return -1;
+    }
+    int ret = avcodec_receive_frame(imp->codecContext, frame->imp->frame);
+    return ret;
 }
 
 int ZAVDecoder::close() {
